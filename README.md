@@ -39,6 +39,61 @@ python3 code/main.py
 
 The blank template at `dataset/output.csv` is provided as a reference. Your final generated file for submission must be the root-level `output.csv`.
 
+---
+
+## Environment Setup & Execution
+
+### 1. Virtual Environment & Dependencies
+
+Create and activate an isolated Python virtual environment:
+
+```bash
+# macOS / Linux
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Windows (PowerShell)
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+# Alternatively: pip install google-genai python-dotenv pypdf
+```
+
+### 2. Configuration & API Keys
+
+The agent runs **fully offline** by default using a deterministic, rule-based multilingual compliance engine. If no API key or network access is present, the LLM verifier safely logs `"verifier skipped"` and completes the full 518-case audit deterministically.
+
+To optionally enable the Gemini LLM intent verification pass:
+1. Create a `.env` file in the repository root (do **not** commit this file):
+   ```text
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+2. (Optional) Override the model fallback chain using `GEMINI_MODELS`:
+   ```text
+   GEMINI_MODELS=gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash
+   ```
+
+### 3. Running the Deletion Audit Pipeline
+
+Run the pipeline from the repository root:
+
+```bash
+python code/main.py
+```
+
+To run and evaluate against the 32 ground-truth sample cases:
+
+```bash
+python code/main.py --sample
+```
+
+---
+
 
 ## Dataset
 
